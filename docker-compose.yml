@@ -1,5 +1,20 @@
+version: '3'
+
 services:
   web:
     build: ./web
     ports:
       - "5001:5001"
+  mongodb:
+    image: 'mongo:latest'
+    container_name: 'mongodb'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    volumes:
+      - './db/mongo.init.js:/docker-entrypoint-initdb.d/mongo.init.js:ro'
+      - 'mongo-volume:/data/db'
+    ports:
+      - '27017-27019:27017-27019'
+volumes:
+  mongo-volume:
